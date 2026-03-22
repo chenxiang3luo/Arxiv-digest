@@ -122,7 +122,7 @@ def _short_authors(authors: str, max_authors: int = 3) -> str:
     return f"{', '.join(parts[:max_authors])}, +{len(parts) - max_authors} more"
 
 
-def _short_abstract(abstract: str, max_len: int = 220) -> str:
+def _short_abstract(abstract: str, max_len: int = 160) -> str:
     text = (abstract or "").strip().replace("\n", " ")
     if not text:
         return "(no abstract)"
@@ -133,8 +133,8 @@ def _short_abstract(abstract: str, max_len: int = 220) -> str:
 
 def format_paper_line(p: Paper, index: int) -> str:
     return (
-        f"{index}. {p.title}\n"
-        f"   Authors: {_short_authors(p.authors)}\n"
-        f"   Abstract: {_short_abstract(p.abstract)}\n"
-        f"   {p.abs_url}"
+        f"{index}) {p.title}\n"
+        f"   👤 {_short_authors(p.authors)}\n"
+        f"   📝 {_short_abstract(p.abstract)}\n"
+        f"   🔗 {p.abs_url}"
     )

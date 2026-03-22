@@ -127,22 +127,29 @@ function Dashboard() {
       {msg && <div style={{ padding: 12, background: "#dcfce7", marginBottom: 16 }}>{msg}</div>}
       {err && <div style={{ padding: 12, background: "#fee2e2", marginBottom: 16 }}>{err}</div>}
 
-      <section style={{ marginBottom: 32 }}>
+      <section style={{ marginBottom: 16, padding: 14, border: "1px solid #e2e8f0", borderRadius: 10, background: "#fff" }}>
+        <h2 style={{ marginTop: 0 }}>Quick start</h2>
+        <div style={{ color: "#475569", fontSize: 14 }}>
+          1) Add keywords {"->"} 2) Add Feishu target webhook {"->"} 3) Send real API digest preview
+        </div>
+      </section>
+
+      <section style={{ marginBottom: 20, padding: 16, border: "1px solid #e2e8f0", borderRadius: 10, background: "#fff" }}>
         <h2>Digest</h2>
         <DigestActions onOk={flash} onErr={flashErr} />
       </section>
 
-      <section style={{ marginBottom: 32 }}>
+      <section style={{ marginBottom: 20, padding: 16, border: "1px solid #e2e8f0", borderRadius: 10, background: "#fff" }}>
         <h2>Keywords</h2>
         <KeywordsPanel onOk={flash} onErr={flashErr} />
       </section>
 
-      <section style={{ marginBottom: 32 }}>
+      <section style={{ marginBottom: 20, padding: 16, border: "1px solid #e2e8f0", borderRadius: 10, background: "#fff" }}>
         <h2>Feishu targets</h2>
         <FeishuPanel onOk={flash} onErr={flashErr} />
       </section>
 
-      <section style={{ marginBottom: 32 }}>
+      <section style={{ marginBottom: 20, padding: 16, border: "1px solid #e2e8f0", borderRadius: 10, background: "#fff" }}>
         <h2>WeChat Official Account</h2>
         <WeChatPanel onOk={flash} onErr={flashErr} />
       </section>
@@ -175,7 +182,7 @@ function DigestActions({
             }
           }}
         >
-          Preview (global keywords)
+          Preview papers
         </button>
         <button
           type="button"
@@ -192,7 +199,7 @@ function DigestActions({
             }
           }}
         >
-          Dry run digest
+          Dry run (no send)
         </button>
         <button
           type="button"
@@ -210,7 +217,7 @@ function DigestActions({
             }
           }}
         >
-          Run digest now
+          Send digest now
         </button>
         <button
           type="button"
@@ -228,7 +235,7 @@ function DigestActions({
             }
           }}
         >
-          Force digest
+          Force re-send
         </button>
       </div>
       {preview && (
