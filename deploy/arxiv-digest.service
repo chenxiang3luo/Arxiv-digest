@@ -1,0 +1,9 @@
+[Unit]
+Description=arXiv digest — POST /api/digest/run (API must already be running)
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/default/arxiv-digest
+# File should contain: ARXIV_DIGEST_TOKEN=your_ADMIN_TOKEN (chmod 600)
+ExecStart=/bin/sh -c '/usr/bin/curl -sS -f -X POST http://127.0.0.1:8000/api/digest/run -H "Authorization: Bearer ${ARXIV_DIGEST_TOKEN}" -H "Content-Type: application/json" -d "{\"dry_run\":false,\"force\":false}"'

@@ -1,0 +1,10 @@
+[Unit]
+Description=Trigger arXiv digest daily at 12:00 Beijing
+
+[Timer]
+OnCalendar=*-*-* 12:00:00
+Timezone=Asia/Shanghai
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,6 @@
+# Replace `your-domain.example.com` with your real public domain.
+# DNS must point to your VPS public IP.
+your-domain.example.com {
+  encode gzip zstd
+  reverse_proxy 127.0.0.1:8000
+}

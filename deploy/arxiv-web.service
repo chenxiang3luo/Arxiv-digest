@@ -1,0 +1,16 @@
+[Unit]
+Description=arXiv digest web API/UI (FastAPI + conda)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=chenxiang
+WorkingDirectory=/Users/chenxiang/apps/backend
+ExecStart=/Users/chenxiang/apps/deploy/start-backend-conda.sh
+Restart=always
+RestartSec=3
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
