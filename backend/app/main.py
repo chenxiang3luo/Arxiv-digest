@@ -99,10 +99,7 @@ def _wechat_sub_out(s: WeChatSubscriber) -> WeChatSubscriberOut:
 
 
 def _feishu_keyword_phrases(db: Session, target: FeishuTarget) -> list[str]:
-    if target.keywords:
-        return [k.phrase for k in target.keywords]
-    all_kw = db.scalars(select(Keyword).order_by(Keyword.id)).all()
-    return [k.phrase for k in all_kw]
+    return [k.phrase for k in target.keywords]
 
 
 def _parse_date_range(body: FeishuPreviewDigestBody) -> tuple[date, date]:

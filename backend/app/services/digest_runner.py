@@ -13,17 +13,11 @@ logger = logging.getLogger(__name__)
 
 
 def _keyword_phrases_for_feishu(db: Session, target: FeishuTarget) -> list[str]:
-    if target.keywords:
-        return [k.phrase for k in target.keywords]
-    all_k = db.scalars(select(Keyword).order_by(Keyword.id)).all()
-    return [k.phrase for k in all_k]
+    return [k.phrase for k in target.keywords]
 
 
 def _keyword_phrases_for_subscriber(db: Session, sub: WeChatSubscriber) -> list[str]:
-    if sub.keywords:
-        return [k.phrase for k in sub.keywords]
-    all_k = db.scalars(select(Keyword).order_by(Keyword.id)).all()
-    return [k.phrase for k in all_k]
+    return [k.phrase for k in sub.keywords]
 
 
 def _already_ran(db: Session, digest_date: str, rtype: str, rid: int) -> bool:
@@ -98,6 +92,12 @@ async def run_digest(db: Session, *, force: bool = False, dry_run: bool = False)
             )
             continue
         phrases = _keyword_phrases_for_feishu(db, t)
+        if not phrases:
+            _record_run(db, digest_date_str, "feishu", t.id, "skipped", 0, "no_keywords")
+            results.append(
+                {"channel": "feishu", "id": t.id, "name": t.name, "status": "skipped", "reason": "no_keywords"}
+            )
+            continue
         matched = arxiv_service.filter_by_keywords(all_papers, phrases)
         if not matched:
             _record_run(db, digest_date_str, "feishu", t.id, "skipped", 0, "no_matching_papers")
@@ -181,6 +181,10 @@ async def run_digest(db: Session, *, force: bool = False, dry_run: bool = False)
                 )
                 continue
             phrases = _keyword_phrases_for_subscriber(db, s)
+            if not phrases:
+                _record_run(db, digest_date_str, "wechat", s.id, "skipped", 0, "no_keywords")
+                results.append({"channel": "wechat", "id": s.id, "status": "skipped", "reason": "no_keywords"})
+                continue
             matched = arxiv_service.filter_by_keywords(all_papers, phrases)
             if not matched:
                 _record_run(db, digest_date_str, "wechat", s.id, "skipped", 0, "no_matching_papers")
